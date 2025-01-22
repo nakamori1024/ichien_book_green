@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>4.地図上にもっと多くのピンを立てる</title>
+        <!-- leafletのCSS読み込み -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.css" />
+        <!-- leafletのJS読み込み -->
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+        <script src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js"></script>
+    </head>
+    <body>
+        <div id="map", style="height: 80vh;"></div>
+        <script>
+            const map = L.map('map',{center: [36.5, 137.1], zoom:5});
+
+            const backgroundLayer = L.tileLayer(
+                'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                {
+                    maxZoom: 19,
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }
+            )
+            map.addLayer(backgroundLayer);
+
+            fetch('./P29-23_14_GML/P29-23_14.geojson')
+                // .then((res) => res.json())
+                // .then((data) => {
+                //     const markers = L.markerClusterGroup().bindPopup((layer) => layer.feature.properties.P29_004).addTo(map);
+                //     L.geoJSON(data).addTo(markers);
+                // });
+                .then((res) => res.json())
+                .then((json) => {
+                    // クラスタリングレイヤーを作成し地図に追加
+                    const markers = L.markerClusterGroup()
+                        .bindPopup(
+                            (layer) => layer.feature.properties.P29_004, // ポップアップで学校名を表示
+                        )
+                        .addTo(map);
+                    L.geoJSON(json).addTo(markers); // クラスタリングレイヤーにGeoJSONデータをセット
+                });
+                // .then(response => {
+                //     return response.json();
+                // })
+                // .then(data => {
+                //     // L.geoJson(data).bindPopup((layer) => layer.feature.properties.P29_004).addTo(map);
+                //     const markers = L.markerClusterGroup().bindPopup((layer) => layer.feature.properties.P29_004).addTo(map);
+                //     L.geoJSON(data).addTo(markers);
+                // });
+        </script>
+    </body>
+</html>

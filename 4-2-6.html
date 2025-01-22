@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>サンプルタイトル</title>
+        <!-- leafletのCSS読み込み -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+        <!-- leafletのJS読み込み -->
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    </head>
+    <body>
+        <div id="map", style="height: 80vh;"></div>
+        <script>
+            const map = L.map('map',{center: [35.3627808, 138.7307908], zoom:14});
+
+            const backgroundLayer = L.tileLayer(
+                'https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg',
+                {
+                    maxZoom: 19,
+                    attribution: '&copy; <a href="https://maps.gsi.go.jp/development/ichiran.html">地理院タイル</a> contributors'
+                }
+            )
+            map.addLayer(backgroundLayer);
+
+            L.circle([35.3627808, 138.7307908], {
+                color: "yellow",
+                fillColor: "#ff0000",
+                fillOpacity: 0.3,
+                radius: 1000,
+            }).bindPopup('I am circle!').addTo(map);
+
+            L.polyline(
+                [
+                    [35.36, 138.73],
+                    [35.37, 138.73],
+                    [35.37, 138.74],
+                    [35.38, 138.74],
+                    [35.39, 138.75],
+                    [35.37, 138.75],
+                ],
+                { color: "blue"},
+            ).bindPopup("I am Polyline!").addTo(map);
+
+            L.polygon(
+                [
+                    [35.36, 138.7307908],
+                    [35.35, 138.74],
+                    [35.34, 138.72],
+                ],
+                { color: "green"},
+            ).bindPopup("I am Polygon!").addTo(map);
+        </script>
+    </body>
+</html>

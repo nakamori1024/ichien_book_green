@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>サンプルタイトル</title>
+        <!-- leafletのCSS読み込み -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+        <!-- leafletのJS読み込み -->
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    </head>
+    <body>
+        <div id="map", style="height: 80vh;"></div>
+        <script>
+            const map = L.map('map',{center: [36.5, 137.1], zoom:5});
+
+            const baseLayers = {
+                OpenStreetMap: L.tileLayer(
+                    'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                    {
+                        maxZoom: 19,
+                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    }
+                ),
+                地理院地図: L.tileLayer(
+                    'https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png',
+                    {
+                        maxZoom: 18,
+                        attribution: '&copy; <a href="https://maps.gsi.go.jp/development/ichiran.html">地理院タイル</a> contributors'
+                    }
+                ),
+                空中写真: L.tileLayer(
+                    'https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg',
+                    {
+                        maxZoom: 18,
+                        attribution: '&copy; <a href="https://maps.gsi.go.jp/development/ichiran.html">地理院タイル</a> contributors'
+                    }
+                ),
+            }
+
+            map.addLayer(baseLayers["OpenStreetMap"]);
+
+            const layerControl = L.control.layers(baseLayers,[],{collapsed: false}).addTo(map);
+        </script>
+    </body>
+</html>
